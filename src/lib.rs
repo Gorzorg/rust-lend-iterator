@@ -137,6 +137,11 @@ implement_basic!(
     [K: 'a] HashSet<K>, hash_set::Iter<'i, K>, K;
 );
 
+/// A struct that helps implementing `LendIterator` and `LendIteratorMut`
+/// for map types. It performs the `unsafe` logic in a standard way,
+/// so that it is easier to implement the trait for different map types
+/// without having to introduce multiple points of failure in the
+/// soundness of the programs that use these traits.
 pub struct MapLendIter<'a, MapIter: Iterator, Item, const MUT: bool> {
     iterator: MapIter,
     last_item: Option<Item>,
